@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Auction Platform</title>
+</head>
+<body>
+<h1>Car and Smartphone Auction</h1>
+<h2>Auction Items</h2>
+<ul>
+    <li th:each="item : ${items}">
+        <span th:text="${item.name}"></span> -
+        <span th:text="${item.startingPrice}"></span> USD
+    </li>
+</ul>
+
+<h2>Add Car</h2>
+<form action="/auction/addCar" method="post">
+    <input type="text" name="name" placeholder="Car Name" required/>
+    <input type="text" name="brand" placeholder="Brand" required/>
+    <input type="text" name="model" placeholder="Model" required/>
+    <input type="number" name="year" placeholder="Year" required/>
+    <input type="number" name="startingPrice" placeholder="Starting Price" required/>
+    <button type="submit">Add Car</button>
+</form>
+
+<h2>Add Smartphone</h2>
+<form action="/auction/addDevices" method="post">
+    <input type="text" name="name" placeholder="Device Name" required/>
+    <input type="text" name="brand" placeholder="Brand" required/>
+    <input type="text" name="model" placeholder="Model" required/>
+    <input type="text" name="os" placeholder="Operating System" required/>
+    <input type="number" name="startingPrice" placeholder="Starting Price" required/>
+    <button type="submit">Add Smartphone</button>
+</form>
+</body>
+</html>
