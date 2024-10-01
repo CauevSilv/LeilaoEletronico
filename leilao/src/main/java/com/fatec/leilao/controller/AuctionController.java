@@ -1,8 +1,7 @@
 package com.fatec.leilao.controller;
 
 import com.fatec.leilao.entities.AuctionItem;
-import com.fatec.leilao.entities.Car;
-import com.fatec.leilao.entities.InfoDevices;
+import com.fatec.leilao.entities.vehicles.Car;
 import com.fatec.leilao.services.AuctionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,16 +27,16 @@ public class AuctionController {
     }
 
     @PostMapping("/addCar")
-    public String addCar(@ModelAttribute Car car) {
+    public String addCar(@RequestBody Car car) {
         auctionService.addItem(car);
         return "redirect:/auction";
     }
 
-    @PostMapping("/addDevices")
-    public String addSmartphone(@ModelAttribute InfoDevices devices) {
-        auctionService.addItem(devices);
-        return "redirect:/auction";
-    }
+//    @PostMapping("/addDevices")
+//    public String addSmartphone(@RequestBody UtilityDto utility) {
+//        auctionService.addItem(utility);
+//        return "redirect:/auction";
+//    }
 
     @GetMapping("/item/{id}")
     @ResponseBody
