@@ -1,0 +1,32 @@
+package com.fatec.leilao.entity;
+
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+public class Lance {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int idLance;
+    private Double valor;
+    @ManyToOne(targetEntity = Cliente.class)
+    private Cliente cliente;
+    @ManyToOne(targetEntity = Lote.class)
+    private Lote lote;
+
+    public Lance(Double valor, Cliente cliente, Lote lote) {
+        this.valor = valor;
+        this.cliente = cliente;
+        this.lote = lote;
+    }
+
+    public Lance(Double valor) {
+        this.valor = valor;
+    }
+
+}
