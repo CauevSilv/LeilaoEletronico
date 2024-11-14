@@ -15,12 +15,12 @@ public class Lote {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String tipo; // "dispositivo" ou "veículo"
+    private String tipo;
     private String nome;
     private String descricao;
     private Double lanceInicial;
     @ManyToOne(targetEntity = Leilao.class)
-    private Leilao leilao; // Relação com a entidade Leilão
+    private Leilao leilao;
 
     public Lote(String tipo, String nome, String descricao, Double lanceInicial, Leilao leilao) {
     this.tipo = tipo;
