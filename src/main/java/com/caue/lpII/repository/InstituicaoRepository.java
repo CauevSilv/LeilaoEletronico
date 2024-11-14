@@ -9,8 +9,6 @@ import java.util.Optional;
 @Repository
 public interface InstituicaoRepository extends JpaRepository<Instituicao, Integer> {
 
-    // Buscar instituição por CNPJ
     Optional<Instituicao> findByCnpj(String cnpj);
 
-    // Outros métodos padrão do JpaRepository já incluem save(), delete(), findById(), etc.
 }

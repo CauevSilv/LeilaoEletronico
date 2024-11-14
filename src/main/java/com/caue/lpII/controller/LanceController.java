@@ -35,7 +35,6 @@ public class LanceController {
         return ResponseEntity.ok(novoLance);
     }
 
-    // Consultar lances por lote
     @GetMapping("/lote/{idLote}")
     public ResponseEntity<List<LanceDTO>> consultarLancesPorLote(@PathVariable int idLote) {
         List<LanceDTO> lances = lanceService.consultarLancesPorLote(idLote);
