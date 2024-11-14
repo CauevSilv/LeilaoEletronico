@@ -16,9 +16,9 @@ public class Lance {
     private int idLance;
     private Double valor;
     @ManyToOne(targetEntity = Cliente.class)
-    private Cliente cliente; // Relação com a entidade Cliente
+    private Cliente cliente;
     @ManyToOne(targetEntity = Lote.class)
-    private Lote lote; // Relação com a entidade Lote
+    private Lote lote;
 
     public Lance(Double valor, Cliente cliente, Lote lote) {
         this.valor = valor;
