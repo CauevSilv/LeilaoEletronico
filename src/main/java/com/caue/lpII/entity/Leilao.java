@@ -27,7 +27,7 @@ public class Leilao {
     private String endereco;
     private String cidade;
     private String estado;
-    private String status; // EM ABERTO, EM ANDAMENTO, FINALIZADO
+    private String status;
 
   public Leilao(LocalDate dataOcorrencia, LocalDate dataVisitacao, String local, String endereco, String cidade, String estado, String status) {
     this.dataOcorrencia = dataOcorrencia;
@@ -40,6 +40,6 @@ public class Leilao {
   }
 
     public LeilaoDTO toDTO() {
-        return new LeilaoDTO(dataOcorrencia, dataVisitacao, local, endereco, cidade, estado, status);
+        return new LeilaoDTO(idLeilao,dataOcorrencia, dataVisitacao, local, endereco, cidade, estado, status);
     }
 }
