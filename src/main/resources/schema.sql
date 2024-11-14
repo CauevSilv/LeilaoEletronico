@@ -93,8 +93,8 @@ VALUES (1600.00, 1, 1),
        (32000.00, 2, 2),
        (900.00, 3, 3),
        (7200.00, 4, 4),
-       (51000.00, 1, 5),
-       (46000.00, 2, 6);
+       (51000.00, 1, 4),
+       (46000.00, 2, 2);
 
 INSERT INTO InstituicaoFinanceira (nome, cnpj)
 VALUES ('Banco do Brasil', '12345678000199'),
@@ -107,5 +107,4 @@ INSERT INTO Leilao_Instituicao (id_leilao, id_instituicao)
 VALUES (1, 1),
        (2, 2),
        (3, 3),
-       (4, 4),
-       (1, 1);
+       (4, 4)
