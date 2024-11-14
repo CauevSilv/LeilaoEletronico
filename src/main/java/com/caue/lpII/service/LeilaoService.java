@@ -44,8 +44,6 @@ public class LeilaoService {
         return null;
     }
 
-    public LoteDTO
-
     public void removerLeilao(int idLeilao) {
         leilaoRepository.deleteById(idLeilao);
     }
