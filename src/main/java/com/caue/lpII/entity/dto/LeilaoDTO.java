@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 
 @Getter
@@ -13,7 +14,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LeilaoDTO {
-    private Integer id;
+    private Optional<Integer> idLeilao;
     private LocalDate dataOcorrencia;
     private LocalDate dataVisitacao;
     private String local;
@@ -22,7 +23,8 @@ public class LeilaoDTO {
     private String estado;
     private String status;
 
-    public LeilaoDTO(LocalDate dataOcorrencia, LocalDate dataVisitacao, String local, String endereco, String cidade, String estado, String status) {
+    public LeilaoDTO(Integer idLeilao,LocalDate dataOcorrencia, LocalDate dataVisitacao, String local, String endereco, String cidade, String estado, String status) {
+        this.idLeilao = idLeilao.describeConstable();
         this.dataOcorrencia = dataOcorrencia;
         this.dataVisitacao = dataVisitacao;
         this.local = local;
