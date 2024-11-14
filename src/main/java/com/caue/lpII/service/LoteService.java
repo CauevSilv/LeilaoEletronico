@@ -23,12 +23,15 @@ public class LoteService {
 
     // Registro de um novo lote
     public LoteDTO registrarLote(LoteDTO loteDTO) {
-        Optional<Leilao> leilaoOpt = leilaoRepository.findById(loteDTO.getLeilao().getId());
-        if (leilaoOpt.isPresent()) {
-            Lote lote = new Lote(loteDTO.getTipo(), loteDTO.getNome(), loteDTO.getDescricao(), loteDTO.getLanceInicial(), leilaoOpt.get());
-            return loteRepository.save(lote).toDTO();
+        if(loteDTO.getLeilao().getIdLeilao().isPresent()){
+            Optional<Leilao> leilaoOpt = leilaoRepository.findById(loteDTO.getLeilao().getIdLeilao().get());
+            if (leilaoOpt.isPresent()) {
+                Lote lote = new Lote(loteDTO.getTipo(), loteDTO.getNome(), loteDTO.getDescricao(), loteDTO.getLanceInicial(), leilaoOpt.get());
+                return loteRepository.save(lote).toDTO();
+            }
+            return null;
         }
-        return null; // Ou lançar exceção
+        return null;
     }
 
     // Consulta de todos os lotes
