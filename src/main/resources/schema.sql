@@ -1,4 +1,3 @@
--- Tabela de Leilão
 CREATE TABLE Leilao
 (
     id_leilao       INT AUTO_INCREMENT PRIMARY KEY,
@@ -8,22 +7,20 @@ CREATE TABLE Leilao
     endereco        VARCHAR(255),
     cidade          VARCHAR(100),
     estado          VARCHAR(2),
-    status          VARCHAR(20)  NOT NULL -- EM ABERTO, EM ANDAMENTO, FINALIZADO
+    status          VARCHAR(20)  NOT NULL
 );
 
--- Tabela de Lote (dispositivos ou veículos)
 CREATE TABLE Lote
 (
     id_lote       INT AUTO_INCREMENT PRIMARY KEY,
-    tipo          VARCHAR(50)    NOT NULL, -- 'dispositivo' ou 'veículo'
-    nome          VARCHAR(100)   NOT NULL, -- Nome do item (notebook, carro, etc.)
+    tipo          VARCHAR(50)    NOT NULL,
+    nome          VARCHAR(100)   NOT NULL,
     descricao     TEXT,
     lance_inicial DECIMAL(10, 2) NOT NULL,
     id_leilao     INT            NOT NULL,
     CONSTRAINT fk_leilao FOREIGN KEY (id_leilao) REFERENCES Leilao (id_leilao)
 );
 
--- Tabela de Cliente
 CREATE TABLE Cliente
 (
     id_cliente INT AUTO_INCREMENT PRIMARY KEY,
@@ -33,7 +30,6 @@ CREATE TABLE Cliente
     telefone   VARCHAR(15)
 );
 
--- Tabela de Lance
 CREATE TABLE Lance
 (
     id_lance   INT AUTO_INCREMENT PRIMARY KEY,
@@ -44,7 +40,6 @@ CREATE TABLE Lance
     CONSTRAINT fk_lote FOREIGN KEY (id_lote) REFERENCES Lote (id_lote)
 );
 
--- Tabela de Instituições Financeiras
 CREATE TABLE InstituicaoFinanceira
 (
     id_instituicao INT AUTO_INCREMENT PRIMARY KEY,
@@ -52,7 +47,6 @@ CREATE TABLE InstituicaoFinanceira
     cnpj           VARCHAR(14)  NOT NULL
 );
 
--- Associação entre Leilão e Instituições Financeiras
 CREATE TABLE Leilao_Instituicao
 (
     id_leilao      INT,
@@ -63,29 +57,55 @@ CREATE TABLE Leilao_Instituicao
 );
 
 
--- Inserir um leilão de exemplo
 INSERT INTO Leilao (data_ocorrencia, data_visitacao, local, endereco, cidade, estado, status)
-VALUES ('2024-10-20', '2024-10-18', 'Centro de Leilões', 'Rua Exemplo, 123', 'São Paulo', 'SP', 'EM ABERTO');
+VALUES ('2024-11-30', '2024-11-28', 'Centro de Leilões', 'Rua Cleber, 1050', 'Alumínio', 'SP', 'EM ABERTO'),
+    ('2024-10-30', '2024-10-28', 'Centro de Leilões', 'Rua Raiz, 20', 'Batatais', 'SP', 'EM ABERTO'),
+    ('2024-09-30', '2024-09-28', 'Centro de Leilões', 'Rua Calvo de cria, 90', 'Descalvado', 'SP', 'EM ABERTO'),
+    ('2024-12-10', '2024-12-08', 'Casa de Leilões', 'Av. Paulista, 1500', 'São Paulo', 'SP', 'EM ABERTO'),
+    ('2024-11-15', '2024-11-13', 'Galpão Leiloeiro', 'Rua das Flores, 200', 'Campinas', 'SP', 'FINALIZADO'),
+    ('2024-10-20', '2024-10-18', 'Espaço de Leilões', 'Rua das Palmeiras, 45', 'Ribeirão Preto', 'SP', 'CANCELADO'),
+    ('2024-12-22', '2024-12-20', 'Arena de Leilões', 'Av. Independência, 3000', 'Sorocaba', 'SP', 'EM ABERTO');
 
--- Inserir lotes de exemplo (dispositivo e veículo)
+
 INSERT INTO Lote (tipo, nome, descricao, lance_inicial, id_leilao)
-VALUES ('dispositivo', 'Notebook Dell', 'Notebook usado, 16GB RAM, SSD 512GB', 1500.00, 1);
+VALUES ('dispositivo', 'Notebook Lenovo Thinkpad E14 Gen2', 'Notebook novo, 16GB RAM, SSD 512GB', 2500.00, 1),
+       ('dispositivo', 'Smartphone Samsung', 'Modelo Xiaomi Mi 11, 256GB, novo', 3000.00, 1),
+       ('dispositivo', 'Tablet Apple iPad', 'iPad Air, 64GB, perfeito estado', 1200.00, 2),
+       ('dispositivo', 'Notebook HP', 'Notebook usado, 8GB RAM, SSD 256GB', 900.00, 3);
 
 INSERT INTO Lote (tipo, nome, descricao, lance_inicial, id_leilao)
-VALUES ('veículo', 'Carro Honda Civic', 'Carro apreendido, ano 2018, cor preta', 30000.00, 1);
+VALUES ('veículo', 'Carro Honda Civic', 'Carro apreendido, ano 2018, cor preta', 30000.00, 1),
+       ('veículo', 'Moto Yamaha Fazer', 'Ano 2020, cor azul', 7000.00, 2),
+       ('veículo', 'Caminhão Mercedes', 'Ano 2017, cor branca, em bom estado', 50000.00, 3),
+       ('veículo', 'Carro Toyota Corolla', 'Ano 2019, cor prata', 45000.00, 4);
 
--- Inserir um cliente de exemplo
+
 INSERT INTO Cliente (nome, cpf, email, telefone)
-VALUES ('João Silva', '12345678901', 'joao@gmail.com', '11999999999');
+VALUES ('João Silva', '12345678901', 'joao@gmail.com', '11999999999'),
+        ('Maria Oliveira', '23456789012', 'maria@gmail.com', '11988888888'),
+        ('Carlos Souza', '34567890123', 'carlos@gmail.com', '11977777777'),
+        ('Ana Lima', '45678901234', 'ana@gmail.com', '11966666666'),
+        ('Pedro Costa', '56789012345', 'pedro@gmail.com', '11955555555');
 
--- Inserir um lance de exemplo
 INSERT INTO Lance (valor, id_cliente, id_lote)
-VALUES (1600.00, 1, 1);
+VALUES (1600.00, 1, 1),
+       (1700.00, 1, 1),
+       (32000.00, 2, 2),
+       (900.00, 3, 3),
+       (7200.00, 4, 4),
+       (51000.00, 1, 5),
+       (46000.00, 2, 6);
 
--- Inserir uma instituição financeira de exemplo
 INSERT INTO InstituicaoFinanceira (nome, cnpj)
-VALUES ('Banco do Brasil', '12345678000199');
+VALUES ('Banco do Brasil', '12345678000199'),
+       ('Caixa Econômica Federal', '23456789000188'),
+       ('Bradesco', '34567890000177'),
+       ('Itaú', '45678900000166'),
+       ('Santander', '56789000000155');
 
--- Associar uma instituição ao leilão
 INSERT INTO Leilao_Instituicao (id_leilao, id_instituicao)
-VALUES (1, 1);
+VALUES (1, 1),
+       (2, 2),
+       (3, 3),
+       (4, 4),
+       (1, 1);
