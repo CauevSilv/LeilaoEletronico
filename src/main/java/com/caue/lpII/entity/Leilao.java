@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Getter
 @Setter
@@ -29,17 +30,8 @@ public class Leilao {
     private String estado;
     private String status;
 
-  public Leilao(LocalDate dataOcorrencia, LocalDate dataVisitacao, String local, String endereco, String cidade, String estado, String status) {
-    this.dataOcorrencia = dataOcorrencia;
-    this.dataVisitacao = dataVisitacao;
-    this.local = local;
-    this.endereco = endereco;
-    this.cidade = cidade;
-    this.estado = estado;
-    this.status = status;
-  }
 
     public LeilaoDTO toDTO() {
-        return new LeilaoDTO(idLeilao,dataOcorrencia, dataVisitacao, local, endereco, cidade, estado, status);
+        return new LeilaoDTO(Optional.of(idLeilao),dataOcorrencia, dataVisitacao, local, endereco, cidade, estado, status);
     }
 }

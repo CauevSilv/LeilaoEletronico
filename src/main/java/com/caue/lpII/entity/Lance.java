@@ -29,12 +29,4 @@ public class Lance {
     public Lance(Double valor) {
         this.valor = valor;
     }
-
-    public LanceDTO toDTO() {
-        LanceDTO lanceDTO = new LanceDTO();
-        lanceDTO.setValor(this.valor);
-        lanceDTO.setCliente(this.cliente.toDTO());
-        lanceDTO.setLote(this.lote.toDTO());
-        return lanceDTO;
-    }
 }

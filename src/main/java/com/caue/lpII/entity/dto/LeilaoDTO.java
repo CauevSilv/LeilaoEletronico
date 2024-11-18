@@ -22,17 +22,6 @@ public class LeilaoDTO {
     private String cidade;
     private String estado;
     private String status;
-
-    public LeilaoDTO(Integer idLeilao,LocalDate dataOcorrencia, LocalDate dataVisitacao, String local, String endereco, String cidade, String estado, String status) {
-        this.idLeilao = idLeilao.describeConstable();
-        this.dataOcorrencia = dataOcorrencia;
-        this.dataVisitacao = dataVisitacao;
-        this.local = local;
-        this.endereco = endereco;
-        this.cidade = cidade;
-        this.estado = estado;
-        this.status = status;
-    }
 }
 
 

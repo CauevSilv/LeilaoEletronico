@@ -29,14 +29,4 @@ public class Lote {
     this.lanceInicial = lanceInicial;
     this.leilao = leilao;
     }
-
-    public LoteDTO toDTO() {
-        LoteDTO loteDTO = new LoteDTO();
-        loteDTO.setTipo(this.tipo);
-        loteDTO.setNome(this.nome);
-        loteDTO.setDescricao(this.descricao);
-        loteDTO.setLanceInicial(this.lanceInicial);
-        loteDTO.setLeilao(this.leilao.toDTO());
-        return loteDTO;
-    }
 }
