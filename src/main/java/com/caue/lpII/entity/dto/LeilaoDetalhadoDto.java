@@ -1,15 +1,19 @@
 package com.caue.lpII.entity.dto;
 
-import lombok.Data;
+import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
-@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class LeilaoDetalhadoDto {
-    private Long id;
-    private LocalDateTime dataOcorrencia;
-    private LocalDateTime dataVisita;
+    private int id;
+    private LocalDate dataOcorrencia;
+    private LocalDate dataVisita;
     private String endereco;
     private String cidade;
     private String estado;

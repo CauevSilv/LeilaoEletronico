@@ -1,11 +1,12 @@
 package com.caue.lpII.service;
+import com.caue.lpII.entity.dto.DispositivoDTO;
 import com.caue.lpII.entity.dto.LeilaoDTO;
 import com.caue.lpII.entity.Leilao;
-import com.caue.lpII.entity.dto.LoteDTO;
+import com.caue.lpII.entity.dto.LeilaoDetalhadoDto;
 import com.caue.lpII.repository.LeilaoRepository;
 import com.caue.lpII.repository.LoteRepository;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,10 +18,10 @@ public class LeilaoService {
 
     private final LeilaoRepository leilaoRepository;
     private final LoteRepository loteRepository;
+    private final ModelMapper modelMapper = new ModelMapper();
 
     public LeilaoDTO registrarLeilao(LeilaoDTO leilaoDTO) {
-        Leilao leilao = new Leilao(leilaoDTO.getDataOcorrencia(), leilaoDTO.getDataVisitacao(),
-                leilaoDTO.getLocal(), leilaoDTO.getEndereco(), leilaoDTO.getCidade(), leilaoDTO.getEstado(), "EM ABERTO");
+        Leilao leilao = modelMapper.map(leilaoDTO, Leilao.class);
         return leilaoRepository.save(leilao).toDTO();
     }
 
@@ -42,6 +43,21 @@ public class LeilaoService {
             return leilaoRepository.save(leilao).toDTO();
         }
         return null;
+    }
+
+    public LeilaoDetalhadoDto getLeilaoDetalhado(Integer idLeilao){
+        LeilaoDetalhadoDto leilaoDetalhadoDto = new LeilaoDetalhadoDto();
+        Leilao leilaoBase = leilaoRepository.findById(idLeilao).get();
+//        List<DispositivoDTO> dispositivosFromLeilao = loteRepository.
+
+        leilaoDetalhadoDto.setId(leilaoBase.getIdLeilao());
+        leilaoDetalhadoDto.setDataOcorrencia(leilaoBase.getDataOcorrencia());
+        leilaoDetalhadoDto.setDataVisita(leilaoBase.getDataVisitacao());
+        leilaoDetalhadoDto.setEndereco(leilaoBase.getEndereco());
+        leilaoDetalhadoDto.setCidade(leilaoBase.getCidade());
+        leilaoDetalhadoDto.setEstado(leilaoBase.getEstado());
+
+        return leilaoDetalhadoDto;
     }
 
     public void removerLeilao(int idLeilao) {
