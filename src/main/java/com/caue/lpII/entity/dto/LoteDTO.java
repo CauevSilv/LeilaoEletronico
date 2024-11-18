@@ -11,17 +11,9 @@ import lombok.Setter;
 @NoArgsConstructor
 public class LoteDTO {
     private Integer id;
-    private String tipo; // "dispositivo" ou "veículo"
+    private String tipo;
     private String nome;
     private String descricao;
     private Double lanceInicial;
     private LeilaoDTO leilao;
-
-    public LoteDTO(String tipo, String nome, String descricao, Double lanceInicial, LeilaoDTO leilao) {
-        this.tipo = tipo;
-        this.nome = nome;
-        this.descricao = descricao;
-        this.lanceInicial = lanceInicial;
-        this.leilao = leilao;
-    }
 }
