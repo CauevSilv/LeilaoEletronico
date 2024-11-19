@@ -1,8 +1,7 @@
 package com.caue.lpII.service;
-import com.caue.lpII.entity.dto.DispositivoDTO;
-import com.caue.lpII.entity.dto.LeilaoDTO;
+import com.caue.lpII.entity.dto.*;
 import com.caue.lpII.entity.Leilao;
-import com.caue.lpII.entity.dto.LeilaoDetalhadoDto;
+import com.caue.lpII.repository.InstituicaoRepository;
 import com.caue.lpII.repository.LeilaoRepository;
 import com.caue.lpII.repository.LoteRepository;
 import lombok.AllArgsConstructor;
@@ -11,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -18,6 +18,7 @@ public class LeilaoService {
 
     private final LeilaoRepository leilaoRepository;
     private final LoteRepository loteRepository;
+    private final InstituicaoRepository InstituicaoRepository;
     private final ModelMapper modelMapper = new ModelMapper();
 
     public LeilaoDTO registrarLeilao(LeilaoDTO leilaoDTO) {
@@ -48,8 +49,9 @@ public class LeilaoService {
     public LeilaoDetalhadoDto getLeilaoDetalhado(Integer idLeilao){
         LeilaoDetalhadoDto leilaoDetalhadoDto = new LeilaoDetalhadoDto();
         Leilao leilaoBase = leilaoRepository.findById(idLeilao).get();
-//        List<DispositivoDTO> dispositivosFromLeilao = loteRepository.
-
+        List<LoteDTO> lotesFromLeilao = loteRepository.findAllByLeilaoId(leilaoBase.getIdLeilao()).stream().map((element) -> modelMapper.map(element, LoteDTO.class)).collect(Collectors.toList());
+        leilaoDetalhadoDto.setProdutos(lotesFromLeilao);
+        leilaoDetalhadoDto.setInstituicoesFinanceiras(InstituicaoRepository.findAllByLeilaoId(idLeilao).stream().map((element) -> modelMapper.map(element, InstituicaoDTO.class)).collect(Collectors.toList()));
         leilaoDetalhadoDto.setId(leilaoBase.getIdLeilao());
         leilaoDetalhadoDto.setDataOcorrencia(leilaoBase.getDataOcorrencia());
         leilaoDetalhadoDto.setDataVisita(leilaoBase.getDataVisitacao());

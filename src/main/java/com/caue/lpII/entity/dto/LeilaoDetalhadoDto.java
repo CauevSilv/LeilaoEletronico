@@ -17,8 +17,7 @@ public class LeilaoDetalhadoDto {
     private String endereco;
     private String cidade;
     private String estado;
-    private List<DispositivoDTO> produtos;
-    private List<VeiculoDTO> veiculos;
+    private List<LoteDTO> produtos;
     private List<InstituicaoDTO> instituicoesFinanceiras;
     private int totalProdutos;
 }

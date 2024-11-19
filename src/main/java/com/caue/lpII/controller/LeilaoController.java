@@ -1,6 +1,7 @@
 package com.caue.lpII.controller;
 
 import com.caue.lpII.entity.dto.LeilaoDTO;
+import com.caue.lpII.entity.dto.LeilaoDetalhadoDto;
 import com.caue.lpII.service.LeilaoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -72,6 +73,18 @@ public class LeilaoController {
     public ResponseEntity<Void> removerLeilao(@PathVariable int idLeilao) {
         leilaoService.removerLeilao(idLeilao);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/detailed/{idLeilao}")
+    @Operation(summary = "Listar um leilão de forma detalhada",
+            description = "Lista um leilão do sistema com base no ID fornecido.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Leilão listado com sucesso."),
+            @ApiResponse(responseCode = "404", description = "Leilão não encontrado."),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor ao remover o leilão.")
+    })
+    public ResponseEntity<LeilaoDetalhadoDto> getLeilaoDetailed(@PathVariable int idLeilao) {
+        return ResponseEntity.ok(leilaoService.getLeilaoDetalhado(idLeilao));
     }
 }
 
