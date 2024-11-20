@@ -29,6 +29,9 @@ public class LeilaoService {
     public List<LeilaoDTO> listarLeiloes() {
         return leilaoRepository.findAllByOrderByDataOcorrenciaAsc().stream().map(Leilao::toDTO).toList();
     }
+    public LeilaoDTO getLeilaoById(Integer idLeilao){
+        return leilaoRepository.findById(idLeilao).map((element) -> modelMapper.map(element, LeilaoDTO.class)).get();
+    }
 
     public LeilaoDTO atualizarLeilao(int idLeilao, LeilaoDTO leilaoDTO) {
         Optional<Leilao> leilaoOpt = leilaoRepository.findById(idLeilao);

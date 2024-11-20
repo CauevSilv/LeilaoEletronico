@@ -88,8 +88,8 @@ VALUES ('João Silva', '12345678901', 'joao@gmail.com', '11999999999'),
         ('Pedro Costa', '56789012345', 'pedro@gmail.com', '11955555555');
 
 INSERT INTO Lance (valor, id_cliente, id_lote)
-VALUES (1600.00, 1, 1),
-       (1700.00, 1, 1),
+VALUES (2600.00, 1, 1),
+       (2800.00, 1, 1),
        (32000.00, 2, 2),
        (900.00, 3, 3),
        (7200.00, 4, 4),

@@ -29,7 +29,6 @@ public class LanceService {
         this.modelMapper = modelMapper;
     }
 
-    // Registrar um lance para um lote
     public LanceDTO registrarLance(LanceDTO lanceDTO) {
         Optional<Cliente> clienteOpt = clienteRepository.findByCpf(lanceDTO.getCliente().getCpf());
         Optional<Lote> loteOpt = loteRepository.findById(lanceDTO.getLote().getId());
@@ -37,7 +36,7 @@ public class LanceService {
             Lance lance = new Lance(lanceDTO.getValor(), clienteOpt.get(), loteOpt.get());
             return modelMapper.map(lanceRepository.save(lance), LanceDTO.class);
         }
-        return null; // Ou lançar exceção
+        return null;
     }
 
     // Consulta dos lances de um determinado lote

@@ -4,13 +4,16 @@ import com.caue.lpII.entity.dto.LeilaoDTO;
 import com.caue.lpII.entity.dto.LeilaoDetalhadoDto;
 import com.caue.lpII.entity.dto.LoteDTO;
 import com.caue.lpII.service.LeilaoService;
+import com.caue.lpII.service.LoteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -18,9 +21,11 @@ import java.util.Optional;
 public class LeilaoController {
 
     private final LeilaoService leilaoService;
+    private final LoteService loteService;
 
-    public LeilaoController(LeilaoService leilaoService) {
+    public LeilaoController(LeilaoService leilaoService, LoteService loteService) {
         this.leilaoService = leilaoService;
+        this.loteService = loteService;
     }
 
     @PostMapping
@@ -89,16 +94,37 @@ public class LeilaoController {
         return ResponseEntity.ok(leilaoService.getLeilaoDetalhado(idLeilao));
     }
 
-    @GetMapping("/detailed/{idLeilao}/{idLote}")
-    @Operation(summary = "Listar um Lote de forma detalhada",
-            description = "Lista um Lote do sistema com base no ID fornecido.")
+    @GetMapping("/{lanceMin}/{lanceMax}/{idLeilao}")
+    @Operation(summary = "Listar Lotes por faixa de lance inicial no leilão",
+            description = "Lista os lotes dentro de um intervalo de valores de lance inicial para um leilão específico.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Lote listado com sucesso."),
-            @ApiResponse(responseCode = "404", description = "Lote não encontrado."),
-            @ApiResponse(responseCode = "500", description = "Erro interno do servidor ao remover o leilão.")
+            @ApiResponse(responseCode = "200", description = "Lotes listados com sucesso."),
+            @ApiResponse(responseCode = "404", description = "Nenhum lote encontrado no intervalo especificado."),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor.")
     })
-    public ResponseEntity<Optional<LoteDTO>> getLoteItemFromLeilao(@PathVariable int idLeilao, @PathVariable int idLote) {
-        return ResponseEntity.ok(leilaoService.detalharItemLeilao(idLeilao,idLote));
+    public ResponseEntity<List<LoteDTO>> listarLotesPorLanceInicialNoLeilao(
+            @PathVariable double lanceMin,
+            @PathVariable double lanceMax,
+            @PathVariable int idLeilao) {
+        List<LoteDTO> lotes = loteService.listarLotesEntreLances(lanceMin, lanceMax, idLeilao);
+        return ResponseEntity.ok(lotes);
     }
+
+    @GetMapping("/total/{idLeilao}/{min}/{max}")
+    @Operation(summary = "Listar Lotes por faixa de valores totais no leilão",
+            description = "Lista os lotes dentro de uma faixa de valores totais para um leilão específico.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lotes listados com sucesso."),
+            @ApiResponse(responseCode = "404", description = "Nenhum lote encontrado no intervalo especificado."),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor.")
+    })
+    public ResponseEntity<List<LoteDTO>> buscarLotesPorFaixa(
+            @PathVariable double min,
+            @PathVariable double max,
+            @PathVariable int idLeilao) {
+        List<LoteDTO> lotes = loteService.listarLotesEntreLancesTotais(min, max, idLeilao);
+        return ResponseEntity.ok(lotes);
+    }
+
 }
 

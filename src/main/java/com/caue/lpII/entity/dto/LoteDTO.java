@@ -1,5 +1,6 @@
 package com.caue.lpII.entity.dto;
 
+import com.caue.lpII.entity.Leilao;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,5 +16,5 @@ public class LoteDTO {
     private String nome;
     private String descricao;
     private Double lanceInicial;
-    private LeilaoDTO leilao;
+    private Leilao leilao;
 }
