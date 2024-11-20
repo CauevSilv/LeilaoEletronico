@@ -1,6 +1,5 @@
 package com.caue.lpII.repository;
 
-import com.caue.lpII.entity.Leilao;
 import com.caue.lpII.entity.Lote;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -20,6 +19,9 @@ public interface LoteRepository extends JpaRepository<Lote, Integer> {
 
     @Query(value = "SELECT * from Lote l where l.ID_LEILAO = :leilaoId", nativeQuery = true)
     List<Lote> findAllByLeilaoId(@Param("leilaoId")Integer leilaoId);
+
+    @Query(value = "SELECT * from Lote l where l.ID_LEILAO = :leilaoId and l.ID_LOTE = :loteId", nativeQuery = true)
+    Lote findByLeilaoIdAndLoteId(@Param("leilaoId")Integer leilaoId,@Param("loteId")Integer loteId);
 
 }
 

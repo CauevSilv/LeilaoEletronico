@@ -2,6 +2,7 @@ package com.caue.lpII.controller;
 
 import com.caue.lpII.entity.dto.LeilaoDTO;
 import com.caue.lpII.entity.dto.LeilaoDetalhadoDto;
+import com.caue.lpII.entity.dto.LoteDTO;
 import com.caue.lpII.service.LeilaoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/leiloes")
@@ -85,6 +87,18 @@ public class LeilaoController {
     })
     public ResponseEntity<LeilaoDetalhadoDto> getLeilaoDetailed(@PathVariable int idLeilao) {
         return ResponseEntity.ok(leilaoService.getLeilaoDetalhado(idLeilao));
+    }
+
+    @GetMapping("/detailed/{idLeilao}/{idLote}")
+    @Operation(summary = "Listar um Lote de forma detalhada",
+            description = "Lista um Lote do sistema com base no ID fornecido.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Lote listado com sucesso."),
+            @ApiResponse(responseCode = "404", description = "Lote não encontrado."),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor ao remover o leilão.")
+    })
+    public ResponseEntity<Optional<LoteDTO>> getLoteItemFromLeilao(@PathVariable int idLeilao, @PathVariable int idLote) {
+        return ResponseEntity.ok(leilaoService.detalharItemLeilao(idLeilao,idLote));
     }
 }
 

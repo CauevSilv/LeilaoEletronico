@@ -62,6 +62,14 @@ public class LeilaoService {
         return leilaoDetalhadoDto;
     }
 
+    public Optional<LoteDTO> detalharItemLeilao(Integer idLeilao, Integer idLote){
+        Optional<LoteDTO> loteDto = Optional.ofNullable(modelMapper.map(loteRepository.findByLeilaoIdAndLoteId(idLeilao, idLote), LoteDTO.class));
+        if(loteDto.isPresent()){
+            return loteDto;
+        }
+        return Optional.empty();
+    }
+
     public void removerLeilao(int idLeilao) {
         leilaoRepository.deleteById(idLeilao);
     }
