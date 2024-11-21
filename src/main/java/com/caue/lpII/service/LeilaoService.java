@@ -23,11 +23,11 @@ public class LeilaoService {
 
     public LeilaoDTO registrarLeilao(LeilaoDTO leilaoDTO) {
         Leilao leilao = modelMapper.map(leilaoDTO, Leilao.class);
-        return leilaoRepository.save(leilao).toDTO();
+        return modelMapper.map(leilaoRepository.save(leilao), LeilaoDTO.class);
     }
 
     public List<LeilaoDTO> listarLeiloes() {
-        return leilaoRepository.findAllByOrderByDataOcorrenciaAsc().stream().map(Leilao::toDTO).toList();
+        return leilaoRepository.findAllByOrderByDataOcorrenciaAsc().stream().map((element) -> modelMapper.map(element, LeilaoDTO.class)).collect(Collectors.toList());
     }
     public LeilaoDTO getLeilaoById(Integer idLeilao){
         return leilaoRepository.findById(idLeilao).map((element) -> modelMapper.map(element, LeilaoDTO.class)).get();
@@ -44,7 +44,7 @@ public class LeilaoService {
             leilao.setCidade(leilaoDTO.getCidade());
             leilao.setEstado(leilaoDTO.getEstado());
             leilao.setStatus(leilaoDTO.getStatus());
-            return leilaoRepository.save(leilao).toDTO();
+            return modelMapper.map(leilaoRepository.save(leilao), LeilaoDTO.class);
         }
         return null;
     }
@@ -52,10 +52,10 @@ public class LeilaoService {
     public LeilaoDetalhadoDto getLeilaoDetalhado(Integer idLeilao){
         LeilaoDetalhadoDto leilaoDetalhadoDto = new LeilaoDetalhadoDto();
         Leilao leilaoBase = leilaoRepository.findById(idLeilao).get();
-        List<LoteDTO> lotesFromLeilao = loteRepository.findAllByLeilaoId(leilaoBase.getIdLeilao()).stream().map((element) -> modelMapper.map(element, LoteDTO.class)).collect(Collectors.toList());
+        List<LoteDTO> lotesFromLeilao = loteRepository.findAllByLeilaoId(leilaoBase.getId()).stream().map((element) -> modelMapper.map(element, LoteDTO.class)).collect(Collectors.toList());
         leilaoDetalhadoDto.setProdutos(lotesFromLeilao);
         leilaoDetalhadoDto.setInstituicoesFinanceiras(InstituicaoRepository.findAllByLeilaoId(idLeilao).stream().map((element) -> modelMapper.map(element, InstituicaoDTO.class)).collect(Collectors.toList()));
-        leilaoDetalhadoDto.setId(leilaoBase.getIdLeilao());
+        leilaoDetalhadoDto.setId(leilaoBase.getId());
         leilaoDetalhadoDto.setDataOcorrencia(leilaoBase.getDataOcorrencia());
         leilaoDetalhadoDto.setDataVisita(leilaoBase.getDataVisitacao());
         leilaoDetalhadoDto.setEndereco(leilaoBase.getEndereco());

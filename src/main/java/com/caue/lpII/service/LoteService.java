@@ -34,8 +34,8 @@ public class LoteService {
     }
 
     public LoteDTO registrarLote(LoteDTO loteDTO) {
-        if(loteDTO.getLeilao().getIdLeilao() != 0){
-            Optional<Leilao> leilaoOpt = leilaoRepository.findById(loteDTO.getLeilao().getIdLeilao());
+        if(loteDTO.getLeilao().getId() != 0){
+            Optional<Leilao> leilaoOpt = leilaoRepository.findById(loteDTO.getLeilao().getId());
             if (leilaoOpt.isPresent()) {
                 Lote lote = new Lote(loteDTO.getTipo(), loteDTO.getNome(), loteDTO.getDescricao(), loteDTO.getLanceInicial(), leilaoOpt.get());
                 return modelMapper.map(loteRepository.save(lote), LoteDTO.class);
