@@ -22,7 +22,7 @@ public interface LoteRepository extends JpaRepository<Lote, Integer> {
                                               @Param("idLeilao") Integer idLeilao);
 
 
-    List<Lote> findByNomeContainingIgnoreCase(String keyword);
+    List<Lote> findByNomeContainingIgnoreCase(String palavra);
 
     @Query(value = "SELECT * from Lote l where l.ID_LEILAO = :leilaoId", nativeQuery = true)
     List<Lote> findAllByLeilaoId(@Param("leilaoId")Integer leilaoId);

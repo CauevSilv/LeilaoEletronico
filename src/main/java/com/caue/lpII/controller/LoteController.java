@@ -46,5 +46,10 @@ public class LoteController {
         List<LoteDTO> lotes = loteService.listarLotesEntreLances(lanceMin,lanceMax,idLeilao);
         return ResponseEntity.ok(lotes);
     }
+
+    @GetMapping("/busca/{palavraBusca}")
+    public ResponseEntity<List<LoteDTO>> listarLotesPorPalavra(@PathVariable String palavraBusca) {
+            return ResponseEntity.ok(loteService.getByWord(palavraBusca).get());
+    }
 }
 

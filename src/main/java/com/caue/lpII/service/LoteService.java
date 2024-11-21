@@ -76,6 +76,10 @@ public class LoteService {
         return null;
     }
 
+    public Optional<List<LoteDTO>> getByWord(String palavraBusca){
+        return Optional.of(loteRepository.findByNomeContainingIgnoreCase(palavraBusca).stream().map((element) -> modelMapper.map(element, LoteDTO.class)).collect(Collectors.toList()));
+    }
+
     public void removerLote(int idLote) {
         loteRepository.deleteById(idLote);
     }
