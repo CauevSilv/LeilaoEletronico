@@ -15,7 +15,6 @@ public interface LanceRepository extends JpaRepository<Lance, Integer> {
     @Query(value = "SELECT * FROM LANCE WHERE ID_LOTE = :idLote",nativeQuery = true)
     List<Lance> findByLoteId(@Param("idLote")int idLote);
 
-    List<Lance> findByLoteIdOrderByValorDesc(int idLote);
 
     @Query(value = "SELECT * FROM LANCE WHERE ID_LOTE in (SELECT LOTE.ID_LOTE FROM LOTE WHERE ID_LEILAO = :leilaoId)", nativeQuery = true)
     List<Lance> findAllByLeilaoId(@Param("leilaoId")Integer leilaoId);

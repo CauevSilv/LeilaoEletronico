@@ -33,7 +33,7 @@ public class LanceService {
         Optional<Cliente> clienteOpt = clienteRepository.findByCpf(lanceDTO.getCliente().getCpf());
         Optional<Lote> loteOpt = loteRepository.findById(lanceDTO.getLote().getId());
         if (clienteOpt.isPresent() && loteOpt.isPresent()) {
-            Lance lance = new Lance(lanceDTO.getValor(), clienteOpt.get(), loteOpt.get());
+            Lance lance = modelMapper.map(lanceDTO, Lance.class);
             return modelMapper.map(lanceRepository.save(lance), LanceDTO.class);
         }
         return null;
