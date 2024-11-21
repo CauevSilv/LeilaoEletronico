@@ -12,7 +12,8 @@ import java.util.List;
 @Repository
 public interface LanceRepository extends JpaRepository<Lance, Integer> {
 
-    List<Lance> findByLoteId(int idLote);
+    @Query(value = "SELECT * FROM LANCE WHERE ID_LOTE = :idLote",nativeQuery = true)
+    List<Lance> findByLoteId(@Param("idLote")int idLote);
 
     List<Lance> findByLoteIdOrderByValorDesc(int idLote);
 

@@ -39,7 +39,6 @@ public class LanceService {
         return null;
     }
 
-    // Consulta dos lances de um determinado lote
     public List<LanceDTO> consultarLancesPorLote(int idLote) {
         return lanceRepository.findByLoteId(idLote).stream().map((element) -> modelMapper.map(element, LanceDTO.class)).toList();
     }
