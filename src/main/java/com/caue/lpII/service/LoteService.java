@@ -1,6 +1,7 @@
 package com.caue.lpII.service;
 
 import com.caue.lpII.entity.dto.LanceDTO;
+import com.caue.lpII.entity.dto.LeilaoDTO;
 import com.caue.lpII.entity.dto.LoteDTO;
 import com.caue.lpII.entity.Leilao;
 import com.caue.lpII.entity.Lote;
@@ -34,10 +35,10 @@ public class LoteService {
     }
 
     public LoteDTO registrarLote(LoteDTO loteDTO) {
-        if(loteDTO.getLeilao().getId() != 0){
-            Optional<Leilao> leilaoOpt = leilaoRepository.findById(loteDTO.getLeilao().getId());
+        if(loteDTO.getLeilaoDTO().getIdLeilao().get() != 0){
+            Optional<Leilao> leilaoOpt = leilaoRepository.findById(loteDTO.getLeilaoDTO().getIdLeilao().get());
             if (leilaoOpt.isPresent()) {
-                Lote lote = new Lote(loteDTO.getTipo(), loteDTO.getNome(), loteDTO.getDescricao(), loteDTO.getLanceInicial(), leilaoOpt.get());
+                Lote lote = modelMapper.map(loteDTO, Lote.class);
                 return modelMapper.map(loteRepository.save(lote), LoteDTO.class);
             }
             return null;
@@ -51,7 +52,7 @@ public class LoteService {
 
     public List<LoteDTO> listarLotesEntreLances(double min, double max, int idLeilao) {
         List<LoteDTO> loteDTOList = loteRepository.findByLanceInicialBetween(min,max,idLeilao).stream().map((element) -> modelMapper.map(element, LoteDTO.class)).toList();
-        loteDTOList.stream().forEach((element) -> element.setLeilao(leilaoRepository.findById(idLeilao).get()));
+        loteDTOList.stream().forEach((element) -> element.setLeilaoDTO(modelMapper.map(leilaoRepository.findById(idLeilao).get(), LeilaoDTO.class)));
         return loteDTOList;
     }
 

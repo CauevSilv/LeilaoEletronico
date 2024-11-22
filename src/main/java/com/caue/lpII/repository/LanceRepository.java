@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface LanceRepository extends JpaRepository<Lance, Integer> {
 
-    @Query(value = "SELECT * FROM LANCE WHERE ID_LOTE = :idLote",nativeQuery = true)
+    @Query(value = "SELECT * FROM LANCE WHERE ID_LOTE = :idLote ORDER BY ID_LOTE",nativeQuery = true)
     List<Lance> findByLoteId(@Param("idLote")int idLote);
 
 

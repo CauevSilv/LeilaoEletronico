@@ -16,5 +16,5 @@ public class LoteDTO {
     private String nome;
     private String descricao;
     private Double lanceInicial;
-    private Leilao leilao;
+    private LeilaoDTO leilaoDTO;
 }
