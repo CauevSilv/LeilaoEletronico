@@ -1,6 +1,6 @@
 package com.caue.lpII.entity.dto;
 
-import com.caue.lpII.entity.TiposDispositivo;
+import com.caue.lpII.entity.enums.TiposDispositivo;
 import lombok.Data;
 
 import java.io.Serializable;

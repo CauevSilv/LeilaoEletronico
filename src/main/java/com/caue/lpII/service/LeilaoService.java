@@ -1,13 +1,20 @@
 package com.caue.lpII.service;
+import com.caue.lpII.entity.Lance;
+import com.caue.lpII.entity.Lote;
 import com.caue.lpII.entity.dto.*;
 import com.caue.lpII.entity.Leilao;
+import com.caue.lpII.entity.enums.LeilaoStatusTypes;
 import com.caue.lpII.repository.InstituicaoRepository;
+import com.caue.lpII.repository.LanceRepository;
 import com.caue.lpII.repository.LeilaoRepository;
 import com.caue.lpII.repository.LoteRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -20,6 +27,7 @@ public class LeilaoService {
     private final LoteRepository loteRepository;
     private final InstituicaoRepository InstituicaoRepository;
     private final ModelMapper modelMapper = new ModelMapper();
+    private final LanceRepository lanceRepository;
 
     public LeilaoDTO registrarLeilao(LeilaoDTO leilaoDTO) {
         Leilao leilao = modelMapper.map(leilaoDTO, Leilao.class);
@@ -43,15 +51,46 @@ public class LeilaoService {
             leilao.setEndereco(leilaoDTO.getEndereco());
             leilao.setCidade(leilaoDTO.getCidade());
             leilao.setEstado(leilaoDTO.getEstado());
-            leilao.setStatus(leilaoDTO.getStatus());
+            leilao.setStatus(String.valueOf(leilaoDTO.getStatus()));
             return modelMapper.map(leilaoRepository.save(leilao), LeilaoDTO.class);
         }
         return null;
     }
 
-    public LeilaoDetalhadoDto getLeilaoDetalhado(Integer idLeilao){
+    public Object getLeilaoDetalhado(Integer idLeilao){
         LeilaoDetalhadoDto leilaoDetalhadoDto = new LeilaoDetalhadoDto();
-        Leilao leilaoBase = leilaoRepository.findById(idLeilao).get();
+        Leilao leilaoBase = leilaoRepository.findById(idLeilao).orElseThrow(() -> new IllegalArgumentException("Leilão não encontrado."));
+
+        ZoneId brasiliaZoneId = ZoneId.of("America/Sao_Paulo");
+        ZonedDateTime nowBrasilia = ZonedDateTime.now(brasiliaZoneId);
+        ZonedDateTime dataOcorrenciaBrasilia = leilaoBase.getDataOcorrencia().  atZone(brasiliaZoneId);
+        ZonedDateTime dataVisitaBrasilia = leilaoBase.getDataVisitacao().atZone(brasiliaZoneId);
+
+        if (nowBrasilia.isBefore(dataOcorrenciaBrasilia)) {
+            leilaoBase.setStatus(String.valueOf(LeilaoStatusTypes.EM_ABERTO));
+        } else if (nowBrasilia.isAfter(dataOcorrenciaBrasilia) && nowBrasilia.isBefore(dataVisitaBrasilia)) {
+            leilaoBase.setStatus(String.valueOf(LeilaoStatusTypes.EM_ANDAMENTO));
+        } else {
+            leilaoBase.setStatus(String.valueOf(LeilaoStatusTypes.FINALIZADO));
+            List<WinnersLote> lotesGanhadores = new ArrayList<>();
+
+            List<Lote> lotes = loteRepository.findAllByLeilaoId(idLeilao);
+            for (Lote lote : lotes) {
+                Lance lanceVencedor = lanceRepository.findLanceByValorGreater(lote.getId());
+                if (lanceVencedor != null) {
+                    WinnersLote loteGanhadorDTO = new WinnersLote();
+                    loteGanhadorDTO.setLoteId(Long.valueOf(lote.getId()));
+                    loteGanhadorDTO.setDescricao(lote.getDescricao());
+                    loteGanhadorDTO.setValor(lanceVencedor.getValor().doubleValue());
+                    loteGanhadorDTO.setClienteName(lanceVencedor.getIdCliente().getNome());
+                    loteGanhadorDTO.setTipoProduto(lote.getTipo());
+                    lotesGanhadores.add(loteGanhadorDTO);
+                }
+            }
+            return new LeilaoEnded(leilaoBase.getId().longValue(),LeilaoStatusTypes.FINALIZADO,lotesGanhadores);
+        }
+
+
         List<LoteDTO> lotesFromLeilao = loteRepository.findAllByLeilaoId(leilaoBase.getId()).stream().map((element) -> modelMapper.map(element, LoteDTO.class)).collect(Collectors.toList());
         leilaoDetalhadoDto.setProdutos(lotesFromLeilao);
         leilaoDetalhadoDto.setInstituicoesFinanceiras(InstituicaoRepository.findAllByLeilaoId(idLeilao).stream().map((element) -> modelMapper.map(element, InstituicaoDTO.class)).collect(Collectors.toList()));
@@ -61,6 +100,7 @@ public class LeilaoService {
         leilaoDetalhadoDto.setEndereco(leilaoBase.getEndereco());
         leilaoDetalhadoDto.setCidade(leilaoBase.getCidade());
         leilaoDetalhadoDto.setEstado(leilaoBase.getEstado());
+        leilaoDetalhadoDto.setStatus(LeilaoStatusTypes.valueOf(leilaoBase.getStatus()));
 
         return leilaoDetalhadoDto;
     }

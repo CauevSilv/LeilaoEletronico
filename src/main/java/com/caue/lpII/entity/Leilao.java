@@ -1,5 +1,6 @@
 package com.caue.lpII.entity;
 
+import com.caue.lpII.entity.enums.LeilaoStatusTypes;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -10,6 +11,7 @@ import lombok.Setter;
 import org.modelmapper.internal.bytebuddy.asm.Advice;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -25,11 +27,11 @@ public class Leilao {
 
     @NotNull
     @Column(name = "DATA_OCORRENCIA", nullable = false)
-    private LocalDate dataOcorrencia;
+    private LocalDateTime dataOcorrencia;
 
     @NotNull
     @Column(name = "DATA_VISITACAO", nullable = false)
-    private LocalDate dataVisitacao;
+    private LocalDateTime dataVisitacao;
 
     @Size(max = 255)
     @NotNull

@@ -90,7 +90,7 @@ public class LeilaoController {
             @ApiResponse(responseCode = "404", description = "Leilão não encontrado."),
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor ao remover o leilão.")
     })
-    public ResponseEntity<LeilaoDetalhadoDto> getLeilaoDetailed(@PathVariable int idLeilao) {
+    public ResponseEntity<Object> getLeilaoDetailed(@PathVariable int idLeilao) {
         return ResponseEntity.ok(leilaoService.getLeilaoDetalhado(idLeilao));
     }
 

@@ -23,4 +23,7 @@ public interface LanceRepository extends JpaRepository<Lance, Integer> {
 
     @Query(value = "SELECT ID_LANCE FROM LANCE ORDER BY LANCE.ID_LANCE DESC LIMIT 1",nativeQuery = true)
     Long findLastId();
+
+    @Query(value = "SELECT * FROM Lance WHERE id_lote = :idLote AND valor = (SELECT MAX(valor) FROM Lance WHERE id_lote = :idLote)",nativeQuery = true)
+    Lance findLanceByValorGreater(@Param("idLote") Integer idLote);
 }

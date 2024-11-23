@@ -1,6 +1,6 @@
 package com.caue.lpII.entity.dto;
 
-import com.caue.lpII.entity.TiposVeiculos;
+import com.caue.lpII.entity.enums.TiposVeiculos;
 import lombok.Data;
 
 @Data

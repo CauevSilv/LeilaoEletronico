@@ -58,7 +58,7 @@ CREATE TABLE Leilao_Instituicao
 
 
 INSERT INTO Leilao (data_ocorrencia, data_visitacao, local, endereco, cidade, estado, status)
-VALUES ('2024-11-30', '2024-11-28', 'Centro de Leilões', 'Rua Cleber, 1050', 'Alumínio', 'SP', 'EM ABERTO'),
+VALUES ('2024-11-30', '2024-11-29', 'Centro de Leilões', 'Rua Cleber, 1050', 'Alumínio', 'SP', 'EM ABERTO'),
     ('2024-10-30', '2024-10-28', 'Centro de Leilões', 'Rua Raiz, 20', 'Batatais', 'SP', 'EM ABERTO'),
     ('2024-09-30', '2024-09-28', 'Centro de Leilões', 'Rua Calvo de cria, 90', 'Descalvado', 'SP', 'EM ABERTO'),
     ('2024-12-10', '2024-12-08', 'Casa de Leilões', 'Av. Paulista, 1500', 'São Paulo', 'SP', 'EM ABERTO'),

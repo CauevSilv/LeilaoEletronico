@@ -1,8 +1,10 @@
 package com.caue.lpII.entity.dto;
 
+import com.caue.lpII.entity.enums.LeilaoStatusTypes;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Builder
@@ -12,12 +14,12 @@ import java.util.List;
 @Setter
 public class LeilaoDetalhadoDto {
     private int id;
-    private LocalDate dataOcorrencia;
-    private LocalDate dataVisita;
+    private LocalDateTime dataOcorrencia;
+    private LocalDateTime dataVisita;
     private String endereco;
     private String cidade;
     private String estado;
     private List<LoteDTO> produtos;
     private List<InstituicaoDTO> instituicoesFinanceiras;
-    private int totalProdutos;
+    private LeilaoStatusTypes status;
 }
