@@ -1,5 +1,6 @@
 package com.caue.lpII.repository;
 
+import com.caue.lpII.entity.Leilao;
 import com.caue.lpII.entity.Lote;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -7,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface LoteRepository extends JpaRepository<Lote, Integer> {
@@ -21,6 +23,9 @@ public interface LoteRepository extends JpaRepository<Lote, Integer> {
                                               @Param("max") Double max,
                                               @Param("idLeilao") Integer idLeilao);
 
+    @Query(value = "SELECT ID_LEILAO FROM LOTE WHERE ID_LOTE = :loteId GROUP BY ID_LEILAO",nativeQuery = true)
+    Integer findLeilaoByLoteId(@Param("loteId") Long loteId);
+
 
     List<Lote> findByNomeContainingIgnoreCase(String palavra);
 
@@ -31,6 +36,5 @@ public interface LoteRepository extends JpaRepository<Lote, Integer> {
 
     @Query(value = "SELECT * from Lote l where l.ID_LEILAO = :leilaoId and l.ID_LOTE = :loteId", nativeQuery = true)
     Lote findByLeilaoIdAndLoteId(@Param("leilaoId")Integer leilaoId,@Param("loteId")Integer loteId);
-
 }
 

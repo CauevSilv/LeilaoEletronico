@@ -34,6 +34,10 @@ public class LoteService {
         this.lanceRepository = lanceRepository;
     }
 
+    public LoteDTO getLoteById(Long id) {
+        return loteRepository.findById(Math.toIntExact(id)).map((element) -> modelMapper.map(element, LoteDTO.class)).get();
+    }
+
     public LoteDTO registrarLote(LoteDTO loteDTO) {
         if(loteDTO.getLeilaoDTO().getIdLeilao().get() != 0){
             Optional<Leilao> leilaoOpt = leilaoRepository.findById(loteDTO.getLeilaoDTO().getIdLeilao().get());

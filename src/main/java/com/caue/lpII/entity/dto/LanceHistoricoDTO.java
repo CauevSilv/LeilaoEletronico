@@ -1,7 +1,5 @@
 package com.caue.lpII.entity.dto;
 
-import com.caue.lpII.entity.Cliente;
-import com.caue.lpII.entity.Lote;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,9 +9,10 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class LanceDTO {
+public class LanceHistoricoDTO {
+    private LoteDTO lote;
+    private ClienteDTO clienteid;
     private Double valor;
-    private Cliente cliente;
-    private Lote lote;
 }
+
 
