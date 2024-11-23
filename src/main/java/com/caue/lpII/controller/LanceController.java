@@ -35,16 +35,30 @@ public class LanceController {
         lanceService.registrarLance(valor, clienteId, (long) loteId);
         return HttpStatus.CREATED;
     }
-
     @GetMapping("/lote/{idLote}")
+    @Operation(summary = "Consultar lances por lote",
+            description = "Retorna a lista de todos os lances associados a um lote específico, com base no ID fornecido.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lances obtidos com sucesso."),
+            @ApiResponse(responseCode = "404", description = "Lote não encontrado."),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor ao consultar os lances.")
+    })
     public ResponseEntity<List<LanceDTO>> consultarLancesPorLote(@PathVariable int idLote) {
         List<LanceDTO> lances = lanceService.consultarLancesPorLote(idLote);
         return ResponseEntity.ok(lances);
     }
 
     @GetMapping("/historico/{idLote}")
+    @Operation(summary = "Consultar histórico de lances por lote",
+            description = "Retorna o histórico detalhado de todos os lances realizados para um lote específico, com base no ID fornecido.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Histórico de lances obtido com sucesso."),
+            @ApiResponse(responseCode = "404", description = "Lote não encontrado."),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor ao consultar o histórico de lances.")
+    })
     public ResponseEntity<List<LanceHistoricoDTO>> consultarHistorico(@PathVariable int idLote) {
         return ResponseEntity.ok(lanceService.consultarLanceHistorico(idLote));
     }
+
 }
 
