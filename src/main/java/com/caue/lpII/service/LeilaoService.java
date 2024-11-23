@@ -28,6 +28,8 @@ public class LeilaoService {
     private final InstituicaoRepository InstituicaoRepository;
     private final ModelMapper modelMapper = new ModelMapper();
     private final LanceRepository lanceRepository;
+    private final InstituicaoService instituicaoService;
+    private final InstituicaoRepository instituicaoRepository;
 
     public LeilaoDTO registrarLeilao(LeilaoDTO leilaoDTO) {
         Leilao leilao = modelMapper.map(leilaoDTO, Leilao.class);
@@ -111,6 +113,20 @@ public class LeilaoService {
             return loteDto;
         }
         return Optional.empty();
+    }
+
+    public LeilaoDETDTO montarLeilaoDet(Long idLeilao){
+        Leilao leilaoBase = leilaoRepository.findById(idLeilao.intValue()).orElseThrow(() -> new IllegalArgumentException("Leilão não encontrado."));
+        LeilaoDETDTO leilaoDetalhadoDto = new LeilaoDETDTO();
+        leilaoDetalhadoDto.setStatus(String.valueOf(leilaoBase.getId()));
+        leilaoDetalhadoDto.setEndereco(leilaoBase.getEndereco());
+        leilaoDetalhadoDto.setCidade(leilaoBase.getCidade());
+        leilaoDetalhadoDto.setEstado(leilaoBase.getEstado());
+        leilaoDetalhadoDto.setStatus(leilaoBase.getStatus());
+        leilaoDetalhadoDto.setLotes(loteRepository.findAllByLeilaoId(leilaoBase.getId()).stream().map((element) -> modelMapper.map(element, LoteDTO.class)).collect(Collectors.toList()));
+        leilaoDetalhadoDto.setInstituicoesFinanceiras(instituicaoRepository.findAllByLeilaoId(leilaoBase.getId()).stream().map((element) -> modelMapper.map(element, InstituicaoDTO.class)).collect(Collectors.toList()));
+        leilaoDetalhadoDto.setLancesHistorico(lanceRepository.findAllByLeilaoId(leilaoBase.getId()).stream().map((element) -> modelMapper.map(element, LanceDTO.class)).collect(Collectors.toList()));
+        return leilaoDetalhadoDto;
     }
 
     public void removerLeilao(int idLeilao) {

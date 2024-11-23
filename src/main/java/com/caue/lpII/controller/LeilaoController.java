@@ -1,7 +1,8 @@
 package com.caue.lpII.controller;
 
+import com.caue.lpII.config.ExporterConfig;
+import com.caue.lpII.entity.dto.LeilaoDETDTO;
 import com.caue.lpII.entity.dto.LeilaoDTO;
-import com.caue.lpII.entity.dto.LeilaoDetalhadoDto;
 import com.caue.lpII.entity.dto.LoteDTO;
 import com.caue.lpII.service.LeilaoService;
 import com.caue.lpII.service.LoteService;
@@ -11,10 +12,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/leiloes")
@@ -126,5 +126,36 @@ public class LeilaoController {
         return ResponseEntity.ok(lotes);
     }
 
+    @GetMapping("/exportar/{id}")
+    @Operation(summary = "Exportar informações detalhadas de um leilão",
+            description = "Gera um arquivo no formato DET com as informações detalhadas de um leilão específico, com base no ID fornecido.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Arquivo exportado com sucesso."),
+            @ApiResponse(responseCode = "404", description = "Leilão não encontrado."),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor ao exportar o arquivo.")
+    })
+    public ResponseEntity<String> exportarLeilao(@PathVariable Long id) {
+        try {
+            LeilaoDETDTO leilaoDETDTO = leilaoService.montarLeilaoDet(id);
+
+            String projectPath = System.getProperty("user.dir");
+
+            String filePath = projectPath + "/src/main/resources/det/leilao_" + id + ".DET";
+
+            File directory = new File(projectPath + "/src/main/resources/det");
+            if (!directory.exists()) {
+                directory.mkdirs();
+            }
+
+            ExporterConfig.exportLeilaoExportacaoToDetFile(leilaoDETDTO, filePath);
+
+            return ResponseEntity.ok("Arquivo exportado com sucesso para: " + filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.ok("Leilão não encontrado: " + e.getMessage());
+        }
+    }
 }
 
