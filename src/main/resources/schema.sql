@@ -9,6 +9,28 @@ CREATE TABLE Leilao
     estado          VARCHAR(2),
     status          VARCHAR(20)  NOT NULL
 );
+CREATE TABLE Veiculo(
+    id              INT AUTO_INCREMENT NOT NULL,
+    descricao       VARCHAR(255),
+    valor_inicial   DECIMAL(15, 2),
+    vendido         BOOLEAN,
+    leilao_id       BIGINT,
+    modelo          VARCHAR(255),
+    marca           VARCHAR(255),
+    tipo            VARCHAR(255),
+    CONSTRAINT pk_veiculo PRIMARY KEY (id)
+);
+
+CREATE TABLE Dispositivo(
+    id              INT AUTO_INCREMENT NOT NULL,
+    descricao       VARCHAR(255),
+    valor_inicial   DECIMAL(15, 2),
+    vendido         BOOLEAN,
+    leilao_id       BIGINT,
+    nome            VARCHAR(255),
+    tipo            VARCHAR(255),
+    CONSTRAINT pk_dispositivo PRIMARY KEY (id)
+);
 
 CREATE TABLE Lote
 (
