@@ -15,18 +15,13 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Entity
 @Table(name = "VEICULO")
-public class Veiculo {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID", nullable = false)
-    private Integer id;
-
+public class Veiculo extends LeilaoProduto {
     @Size(max = 255)
     @Column(name = "DESCRICAO")
     private String descricao;
 
     @Column(name = "VALOR_INICIAL", precision = 15, scale = 2)
-    private BigDecimal valorInicial;
+    private Double valorInicial;
 
     @Column(name = "VENDIDO")
     private Boolean vendido;
