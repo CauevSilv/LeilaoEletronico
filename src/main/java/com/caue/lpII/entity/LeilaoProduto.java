@@ -7,7 +7,6 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@MappedSuperclass
 public abstract class LeilaoProduto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
