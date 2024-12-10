@@ -1,6 +1,7 @@
 package com.caue.lpII.repository;
 
 import com.caue.lpII.entity.Lance;
+import com.caue.lpII.entity.LoteTipo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

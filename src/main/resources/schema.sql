@@ -9,13 +9,38 @@ CREATE TABLE Leilao
     estado          VARCHAR(2),
     status          VARCHAR(20)  NOT NULL
 );
+CREATE TABLE IF NOT EXISTS Dispositivo
+(
+    id           BIGINT AUTO_INCREMENT NOT NULL,
+    descricao    VARCHAR(255),
+    valor_inicial DECIMAL(15, 2),
+    vendido      BOOLEAN,
+    lote_id    BIGINT,
+    nome         VARCHAR(255),
+    tipo         VARCHAR(255),
+    CONSTRAINT pk_dispositivo PRIMARY KEY (id)
+);
+CREATE TABLE IF NOT EXISTS Veiculo
+(
+    id           BIGINT AUTO_INCREMENT NOT NULL,
+    descricao    VARCHAR(255),
+    valor_inicial DECIMAL(15, 2),
+    vendido      BOOLEAN,
+    lote_id    BIGINT,
+    modelo       VARCHAR(255),
+    marca        VARCHAR(255),
+    tipo         VARCHAR(255),
+    CONSTRAINT pk_veiculo PRIMARY KEY (id)
+);
 
 CREATE TABLE Lote_tipo(
-      id int AUTO_INCREMENT PRIMARY KEY ,
-      id_lote int,
-      id_veiculo int,
-      id_dispositivo int,
-      CONSTRAINT pk_leilaotipo PRIMARY KEY (id)
+                          id int AUTO_INCREMENT PRIMARY KEY ,
+                          id_lote int,
+                          id_veiculo int,
+                          id_dispositivo int,
+                          CONSTRAINT pk_leilaotipo PRIMARY KEY (id),
+                          CONSTRAINT fk_veiculo FOREIGN KEY (id_veiculo) REFERENCES Veiculo (id),
+                          CONSTRAINT fk_dispositivo FOREIGN KEY (id_dispositivo) REFERENCES Dispositivo (id)
 );
 
 CREATE TABLE Lote
@@ -64,31 +89,9 @@ CREATE TABLE Leilao_Instituicao
     CONSTRAINT fk_leilao_inst FOREIGN KEY (id_leilao) REFERENCES Leilao (id_leilao),
     CONSTRAINT fk_inst_leilao FOREIGN KEY (id_instituicao) REFERENCES InstituicaoFinanceira (id_instituicao)
 );
+CREATE VIEW lote_valor_total as
+SELECT l.id_lote, l.nome, l.descricao,l.lance_inicial, l.lance_inicial + COALESCE(SUM(c.valor), 0) AS valor_total FROM lote l LEFT JOIN lance c ON l.id_lote = c.id_lote  GROUP BY l.id_lote;
 
-CREATE TABLE IF NOT EXISTS Veiculo
-(
-    id           BIGINT AUTO_INCREMENT NOT NULL,
-    descricao    VARCHAR(255),
-    valor_inicial DECIMAL(15, 2),
-    vendido      BOOLEAN,
-    lote_id    BIGINT,
-    modelo       VARCHAR(255),
-    marca        VARCHAR(255),
-    tipo         VARCHAR(255),
-    CONSTRAINT pk_veiculo PRIMARY KEY (id)
-);
-
-CREATE TABLE IF NOT EXISTS Dispositivo
-(
-    id           BIGINT AUTO_INCREMENT NOT NULL,
-    descricao    VARCHAR(255),
-    valor_inicial DECIMAL(15, 2),
-    vendido      BOOLEAN,
-    lote_id    BIGINT,
-    nome         VARCHAR(255),
-    tipo         VARCHAR(255),
-    CONSTRAINT pk_dispositivo PRIMARY KEY (id)
-);
 INSERT INTO Leilao (data_ocorrencia, data_visitacao, local, endereco, cidade, estado, status)
 VALUES
     ('2024-12-15', '2024-12-10', 'Espaço de Leilões', 'Rua Principal, 123', 'São Paulo', 'SP', 'EM ABERTO'),

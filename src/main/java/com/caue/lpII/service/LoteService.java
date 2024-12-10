@@ -1,9 +1,11 @@
 package com.caue.lpII.service;
 
 import com.caue.lpII.entity.Lote;
+import com.caue.lpII.entity.LoteValorTotal;
 import com.caue.lpII.entity.dto.LeilaoDTO;
 import com.caue.lpII.entity.dto.LoteDTO;
 import com.caue.lpII.entity.Leilao;
+import com.caue.lpII.entity.dto.LoteValorTotalDTO;
 import com.caue.lpII.repository.LanceRepository;
 import com.caue.lpII.repository.LeilaoRepository;
 import com.caue.lpII.repository.LoteRepository;
@@ -11,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -59,11 +62,17 @@ public class LoteService {
         return loteDTOList;
     }
 
-    public List<LoteDTO> listarLotesEntreLancesTotais(double min, double max, int idLeilao) {
-        List<Lote> lotes = loteRepository.findLotesByLancesTotaisBetween(min, max, idLeilao);
-        return lotes.stream()
-                .map(lote -> modelMapper.map(lote, LoteDTO.class))
-                .toList();
+    public List<LoteValorTotalDTO> listarLotesEntreLancesTotais(double min, double max, int idLeilao) {
+        List<Object[]> results = loteRepository.findLotesByLancesTotaisBetween(min, max, idLeilao);
+        return results.stream()
+                .map(row -> new LoteValorTotalDTO(
+                        (Integer) row[0],  // ID_LOTE
+                        (String) row[1],   // NOME
+                        (String) row[2].toString(),   // DESCRICAO
+                        (BigDecimal) row[3], // LANCE_INICIAL
+                        (BigDecimal) row[4]  // VALOR_TOTAL
+                ))
+                .collect(Collectors.toList());
     }
 
 

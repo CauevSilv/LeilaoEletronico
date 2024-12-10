@@ -3,6 +3,8 @@ package com.caue.lpII.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Getter
 @Setter
@@ -10,17 +12,20 @@ import lombok.Setter;
 @Table(name = "LOTE_TIPO")
 public class LoteTipo {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     private Integer id;
 
     @Column(name = "ID_LOTE")
     private Integer idLote;
 
-    @Column(name = "ID_VEICULO")
-    private Integer idVeiculo;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    @JoinColumn(name = "ID_VEICULO")
+    private Veiculo idVeiculo;
 
-    @Column(name = "ID_DISPOSITIVO")
-    private Integer idDispositivo;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    @JoinColumn(name = "ID_DISPOSITIVO")
+    private Dispositivo idDispositivo;
 
 }

@@ -1,9 +1,8 @@
 package com.caue.lpII.controller;
 
 import com.caue.lpII.config.ExporterConfig;
-import com.caue.lpII.entity.dto.LeilaoDETDTO;
-import com.caue.lpII.entity.dto.LeilaoDTO;
-import com.caue.lpII.entity.dto.LoteDTO;
+import com.caue.lpII.entity.LoteValorTotal;
+import com.caue.lpII.entity.dto.*;
 import com.caue.lpII.service.LeilaoService;
 import com.caue.lpII.service.LoteService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -118,11 +117,11 @@ public class LeilaoController {
             @ApiResponse(responseCode = "404", description = "Nenhum lote encontrado no intervalo especificado."),
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor.")
     })
-    public ResponseEntity<List<LoteDTO>> buscarLotesPorFaixa(
+    public ResponseEntity<List<LoteValorTotalDTO>> buscarLotesPorFaixa(
             @PathVariable double min,
             @PathVariable double max,
             @PathVariable int idLeilao) {
-        List<LoteDTO> lotes = loteService.listarLotesEntreLancesTotais(min, max, idLeilao);
+        List<LoteValorTotalDTO> lotes = loteService.listarLotesEntreLancesTotais(min, max, idLeilao);
         return ResponseEntity.ok(lotes);
     }
 
