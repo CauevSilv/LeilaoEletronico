@@ -1,5 +1,6 @@
 package com.caue.lpII.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -19,7 +20,6 @@ import java.math.BigDecimal;
 @Table(name = "LANCE")
 public class Lance {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_LANCE", nullable = false)
     private Integer id;
 

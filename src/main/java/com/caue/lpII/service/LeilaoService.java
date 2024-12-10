@@ -74,22 +74,21 @@ public class LeilaoService {
             leilaoBase.setStatus(String.valueOf(LeilaoStatusTypes.EM_ANDAMENTO));
         } else {
             leilaoBase.setStatus(String.valueOf(LeilaoStatusTypes.FINALIZADO));
-            List<WinnersLote> lotesGanhadores = new ArrayList<>();
+            List<WinnersLance> lancesVencedores = new ArrayList<>();
 
             List<Lote> lotes = loteRepository.findAllByLeilaoId(idLeilao);
             for (Lote lote : lotes) {
                 Lance lanceVencedor = lanceRepository.findLanceByValorGreater(lote.getId());
                 if (lanceVencedor != null) {
-                    WinnersLote loteGanhadorDTO = new WinnersLote();
-                    loteGanhadorDTO.setLoteId(Long.valueOf(lote.getId()));
-                    loteGanhadorDTO.setDescricao(lote.getDescricao());
-                    loteGanhadorDTO.setValor(lanceVencedor.getValor().doubleValue());
-                    loteGanhadorDTO.setClienteName(lanceVencedor.getIdCliente().getNome());
-                    loteGanhadorDTO.setTipoProduto(lote.getTipo());
-                    lotesGanhadores.add(loteGanhadorDTO);
+                    WinnersLance lanceGanhadorDTO = new WinnersLance();
+                    lanceGanhadorDTO.setLanceDto(modelMapper.map(lanceVencedor, LanceDTO.class));
+                    lanceGanhadorDTO.setDescricao(lote.getDescricao());
+                    lanceGanhadorDTO.setValor(lanceVencedor.getValor().doubleValue());
+                    lanceGanhadorDTO.setClienteName(lanceVencedor.getIdCliente().getNome());
+                    lancesVencedores.add(lanceGanhadorDTO);
                 }
             }
-            return new LeilaoEnded(leilaoBase.getId().longValue(),LeilaoStatusTypes.FINALIZADO,lotesGanhadores);
+            return new LeilaoEnded(leilaoBase.getId().longValue(),LeilaoStatusTypes.FINALIZADO,lancesVencedores);
         }
 
 

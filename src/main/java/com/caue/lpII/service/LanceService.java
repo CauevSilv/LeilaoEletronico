@@ -2,7 +2,6 @@ package com.caue.lpII.service;
 
 import com.caue.lpII.entity.dto.*;
 import com.caue.lpII.entity.Lance;
-import com.caue.lpII.entity.Lote;
 import com.caue.lpII.repository.ClienteRepository;
 import com.caue.lpII.repository.LanceRepository;
 import com.caue.lpII.repository.LeilaoRepository;
@@ -13,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class LanceService {
@@ -41,7 +41,7 @@ public class LanceService {
         Optional<LoteDTO> loteOpt = Optional.ofNullable(loteService.getLoteById(loteId));
         loteOpt.get().setLeilaoDTO(leilaoRepository.findById(loteRepository.findLeilaoByLoteId(loteId)).map((element) -> modelMapper.map(element, LeilaoDTO.class)).get());
         if (clienteOpt.isPresent() && loteOpt.isPresent()) {
-            LanceDTO lanceDTO = new LanceDTO(valor,clienteRepository.findById(clienteId).get(),loteRepository.findById(Math.toIntExact(loteId)).get());
+            LanceDTO lanceDTO = new LanceDTO(valor, modelMapper.map(clienteRepository.findById(clienteId).get(), ClienteDTO.class), modelMapper.map(loteRepository.findById(Math.toIntExact(loteId)).get(), LoteDTO.class));
             Lance lance = modelMapper.map(lanceDTO, Lance.class);
             lanceRepository.save(lance);
         }
@@ -64,5 +64,16 @@ public class LanceService {
         lanceRepository.findByLoteId(idLote).forEach(lance -> lanceHistoricoDTOList.add(criarLanceHistorico(lance)));
         return lanceHistoricoDTOList;
     }
+    public Optional<List<LanceDTO>> getByType(Long idLeilao,String tipoBusca){
+        if (tipoBusca.contains("ulo") || tipoBusca.contains("Ve")){
+            List<Lance> lances = lanceRepository.findByTipoContainingIgnoreCaseVeiculo(idLeilao);
+            List<LanceDTO> lanceDTO = lances.stream().map((element) -> modelMapper.map(element, LanceDTO.class)).collect(Collectors.toList());
+            return Optional.of(lanceDTO);
+        } else if (tipoBusca.contains("Dispositivo") || tipoBusca.contains("dispositivo")){
+            return Optional.of(lanceRepository.findByTipoContainingIgnoreCaseDispositivo(idLeilao).stream().map((element) -> modelMapper.map(element, LanceDTO.class)).collect(Collectors.toList()));
+        }
+        return Optional.empty();
+    }
+
 }
 

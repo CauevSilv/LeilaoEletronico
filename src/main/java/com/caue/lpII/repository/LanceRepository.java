@@ -1,7 +1,6 @@
 package com.caue.lpII.repository;
 
 import com.caue.lpII.entity.Lance;
-import com.caue.lpII.entity.Lote;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,9 +18,27 @@ public interface LanceRepository extends JpaRepository<Lance, Integer> {
     @Query(value = "SELECT * FROM LANCE WHERE ID_LOTE in (SELECT LOTE.ID_LOTE FROM LOTE WHERE ID_LEILAO = :leilaoId)", nativeQuery = true)
     List<Lance> findAllByLeilaoId(@Param("leilaoId")Integer leilaoId);
 
-    @Query(value = "SELECT ID_LANCE FROM LANCE ORDER BY LANCE.ID_LANCE DESC LIMIT 1",nativeQuery = true)
-    Long findLastId();
+
 
     @Query(value = "SELECT * FROM Lance WHERE id_lote = :idLote AND valor = (SELECT MAX(valor) FROM Lance WHERE id_lote = :idLote)",nativeQuery = true)
     Lance findLanceByValorGreater(@Param("idLote") Integer idLote);
+
+    @Query(value = """
+    SELECT l.* 
+    FROM LANCE l
+    JOIN LOTE lo ON l.ID_LOTE = lo.ID_LOTE
+    JOIN VEICULO v ON lo.ID_LOTE = v.LOTE_ID
+    WHERE lo.ID_LEILAO = :idLeilao GROUP BY l.ID_LANCE
+    """, nativeQuery = true)
+    List<Lance> findByTipoContainingIgnoreCaseVeiculo(@Param("idLeilao") Long idLeilao);
+
+
+    @Query(value = """
+    SELECT l.* 
+    FROM LANCE l
+    JOIN LOTE lo ON l.ID_LOTE = lo.ID_LOTE
+    JOIN DISPOSITIVO v ON lo.ID_LOTE = v.LOTE_ID
+    WHERE lo.ID_LEILAO = :idLeilao GROUP BY l.ID_LANCE
+    """, nativeQuery = true)
+    List<Lance> findByTipoContainingIgnoreCaseDispositivo(@Param("idLeilao")Long idLeilao);
 }

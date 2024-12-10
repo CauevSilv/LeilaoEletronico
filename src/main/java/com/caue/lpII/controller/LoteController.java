@@ -100,17 +100,5 @@ public class LoteController {
         return ResponseEntity.ok(loteService.getByWord(palavraBusca).get());
     }
 
-    @GetMapping("/busca/tipo/{tipoDeItem}")
-    @Operation(summary = "Listar lotes por tipo de item",
-            description = "Retorna os lotes que correspondem a um tipo de item específico fornecido.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Lotes encontrados com sucesso."),
-            @ApiResponse(responseCode = "404", description = "Nenhum lote encontrado para o tipo especificado."),
-            @ApiResponse(responseCode = "500", description = "Erro interno do servidor ao buscar lotes.")
-    })
-    public ResponseEntity<List<LoteDTO>> listarLotesPorTipo(@PathVariable String tipoDeItem) {
-        return ResponseEntity.ok(loteService.getByType(tipoDeItem).get());
-    }
-
 }
 

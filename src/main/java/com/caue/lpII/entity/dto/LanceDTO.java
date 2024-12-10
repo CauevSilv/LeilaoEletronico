@@ -13,7 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class LanceDTO {
     private Double valor;
-    private Cliente cliente;
-    private Lote lote;
+    private ClienteDTO cliente;
+    private LoteDTO lote;
 }
 

@@ -9,8 +9,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class WinnersLote {
-    private Long loteId;
+public class WinnersLance {
+    private LanceDTO lanceDto;
     private String descricao;
     private Double valor;
     private String clienteName;

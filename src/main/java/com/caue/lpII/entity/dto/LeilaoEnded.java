@@ -15,5 +15,5 @@ import java.util.List;
 public class LeilaoEnded {
     private Long leilaoId;
     private LeilaoStatusTypes status;
-    private List<WinnersLote> lotesVencedores;
+    private List<WinnersLance> lotesVencedores;
 }

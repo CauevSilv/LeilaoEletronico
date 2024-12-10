@@ -13,8 +13,6 @@ import java.util.Optional;
 @Repository
 public interface LoteRepository extends JpaRepository<com.caue.lpII.entity.Lote, Integer> {
 
-    List<com.caue.lpII.entity.Lote> findByTipo(String tipo);
-
     @Query(value = "SELECT * FROM lote WHERE lance_inicial BETWEEN :min AND :max and ID_LEILAO = :leilaoId", nativeQuery = true)
     List<Lote> findByLanceInicialBetween(@Param("min")Double min,@Param("max") Double max, @Param("leilaoId")Integer leilaoId);
 
@@ -29,7 +27,6 @@ public interface LoteRepository extends JpaRepository<com.caue.lpII.entity.Lote,
 
     List<Lote> findByNomeContainingIgnoreCase(String palavra);
 
-    List<Lote> findByTipoContainingIgnoreCase(String tipo);
 
     @Query(value = "SELECT * from Lote l where l.ID_LEILAO = :leilaoId", nativeQuery = true)
     List<Lote> findAllByLeilaoId(@Param("leilaoId")Integer leilaoId);
