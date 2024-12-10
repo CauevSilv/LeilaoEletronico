@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface LoteRepository extends JpaRepository<Lote, Integer> {
+public interface LoteRepository extends JpaRepository<com.caue.lpII.entity.Lote, Integer> {
 
-    List<Lote> findByTipo(String tipo);
+    List<com.caue.lpII.entity.Lote> findByTipo(String tipo);
 
     @Query(value = "SELECT * FROM lote WHERE lance_inicial BETWEEN :min AND :max and ID_LEILAO = :leilaoId", nativeQuery = true)
     List<Lote> findByLanceInicialBetween(@Param("min")Double min,@Param("max") Double max, @Param("leilaoId")Integer leilaoId);

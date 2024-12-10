@@ -1,7 +1,10 @@
 package com.caue.lpII.entity.dto;
 
 import com.caue.lpII.entity.enums.TiposDispositivo;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.io.Serializable;
 
@@ -9,11 +12,11 @@ import java.io.Serializable;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class DispositivoDTO implements Serializable {
+public class DispositivoDTOSW implements Serializable {
     private Long id;
     private String descricao;
     private Double valorInicial;
-    private LoteDTO loteId;
+    private int loteId;
     private boolean vendido;
     private String nome;
     private TiposDispositivo tipo;

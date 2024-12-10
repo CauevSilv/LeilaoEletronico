@@ -65,7 +65,7 @@ public class LeilaoService {
 
         ZoneId brasiliaZoneId = ZoneId.of("America/Sao_Paulo");
         ZonedDateTime nowBrasilia = ZonedDateTime.now(brasiliaZoneId);
-        ZonedDateTime dataOcorrenciaBrasilia = leilaoBase.getDataOcorrencia().  atZone(brasiliaZoneId);
+        ZonedDateTime dataOcorrenciaBrasilia = leilaoBase.getDataOcorrencia().atZone(brasiliaZoneId);
         ZonedDateTime dataVisitaBrasilia = leilaoBase.getDataVisitacao().atZone(brasiliaZoneId);
 
         if (nowBrasilia.isBefore(dataOcorrenciaBrasilia)) {

@@ -1,7 +1,6 @@
 package com.caue.lpII.service;
 
 import com.caue.lpII.entity.dto.*;
-import com.caue.lpII.entity.Cliente;
 import com.caue.lpII.entity.Lance;
 import com.caue.lpII.entity.Lote;
 import com.caue.lpII.repository.ClienteRepository;
@@ -10,9 +9,7 @@ import com.caue.lpII.repository.LeilaoRepository;
 import com.caue.lpII.repository.LoteRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

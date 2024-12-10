@@ -1,17 +1,16 @@
 package com.caue.lpII.service;
 
-import com.caue.lpII.entity.dto.LanceDTO;
+import com.caue.lpII.entity.Lote;
 import com.caue.lpII.entity.dto.LeilaoDTO;
 import com.caue.lpII.entity.dto.LoteDTO;
 import com.caue.lpII.entity.Leilao;
-import com.caue.lpII.entity.Lote;
 import com.caue.lpII.repository.LanceRepository;
 import com.caue.lpII.repository.LeilaoRepository;
 import com.caue.lpII.repository.LoteRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -72,10 +71,9 @@ public class LoteService {
         Optional<Lote> loteOpt = loteRepository.findById(idLote);
         if (loteOpt.isPresent()) {
             Lote lote = loteOpt.get();
-            lote.setTipo(loteDTO.getTipo());
             lote.setNome(loteDTO.getNome());
             lote.setDescricao(loteDTO.getDescricao());
-            lote.setLanceInicial(loteDTO.getLanceInicial());
+            lote.setLanceInicial(BigDecimal.valueOf(loteDTO.getLanceInicial()));
             return modelMapper.map(loteRepository.save(lote), LoteDTO.class);
         }
         return null;
@@ -85,9 +83,9 @@ public class LoteService {
         return Optional.of(loteRepository.findByNomeContainingIgnoreCase(palavraBusca).stream().map((element) -> modelMapper.map(element, LoteDTO.class)).collect(Collectors.toList()));
     }
 
-    public Optional<List<LoteDTO>> getByType(String tipoBusca){
-        return Optional.of(loteRepository.findByTipoContainingIgnoreCase(tipoBusca).stream().map((element) -> modelMapper.map(element, LoteDTO.class)).collect(Collectors.toList()));
-    }
+//    public Optional<List<LoteDTO>> getByType(String tipoBusca){
+//        return Optional.of(loteRepository.findByTipoContainingIgnoreCase(tipoBusca).stream().map((element) -> modelMapper.map(element, LoteDTO.class)).collect(Collectors.toList()));
+//    }
 
     public void removerLote(int idLote) {
         loteRepository.deleteById(idLote);
